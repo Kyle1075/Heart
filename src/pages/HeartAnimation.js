@@ -78,12 +78,6 @@ function HeartAnimation() {
     const particleGroup = new THREE.Group();
     scene.add(particleGroup);
 
-    // PARTICLES
-    const tl = gsap.timeline({
-      repeat: -1,
-      yoyo: true
-    });
-
     const geometry = new THREE.BufferGeometry();
     geometry.setFromPoints(vertices);
 
@@ -136,14 +130,42 @@ function HeartAnimation() {
 
     const positionAttribute = geometry.getAttribute('position');
 
-    // Add heart STAY for 2 seconds, then dissolve
+    // Initialize positions to scattered (dissolved) state
+    const positions = positionAttribute.array;
+    particlesData.forEach((data, index) => {
+      positions[index * 3] = data.randomPos.x;
+      positions[index * 3 + 1] = data.randomPos.y;
+      positions[index * 3 + 2] = data.randomPos.z;
+    });
+    positionAttribute.needsUpdate = true;
+
+    // Timeline: Dissolve -> Construct -> Hold -> Dissolve
+    const tl = gsap.timeline({
+      repeat: -1,
+      yoyo: true
+    });
+
+    // PHASE 1: Construct (scattered particles move to heart shape)
+    particlesData.forEach((data, index) => {
+      tl.to(positionAttribute.array, {
+        [index * 3]: data.originalPos.x,
+        [index * 3 + 1]: data.originalPos.y,
+        [index * 3 + 2]: data.originalPos.z,
+        duration: 1.5
+      }, 0); // Start immediately
+    });
+
+    // PHASE 2: Hold heart shape for 2 seconds
+    tl.to({}, {}, 1.5);
+
+    // PHASE 3: Dissolve (heart particles scatter)
     particlesData.forEach((data, index) => {
       tl.to(positionAttribute.array, {
         [index * 3]: data.randomPos.x,
         [index * 3 + 1]: data.randomPos.y,
         [index * 3 + 2]: data.randomPos.z,
         duration: 1.5
-      }, 2); // Start after 2 seconds
+      }, 3.5); // Start after hold phase
     });
 
     function animateParticles() {

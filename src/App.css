@@ -1,0 +1,109 @@
+.app-container {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Music Control Panel */
+.music-control-panel {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 105, 180, 0.15);
+  padding: 15px 20px;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.mute-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 5px 10px;
+}
+
+.mute-button:hover {
+  transform: scale(1.1);
+}
+
+.mute-button.muted {
+  opacity: 0.6;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volume-slider {
+  width: 120px;
+  height: 5px;
+  cursor: pointer;
+  accent-color: #ff69b4;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff69b4;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  background: #ff1493;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff69b4;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+  background: #ff1493;
+}
+
+.volume-label {
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
+  min-width: 35px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .music-control-panel {
+    bottom: 20px;
+    right: 20px;
+    gap: 10px;
+    padding: 12px 15px;
+  }
+
+  .volume-slider {
+    width: 80px;
+  }
+
+  .mute-button {
+    font-size: 20px;
+  }
+}
